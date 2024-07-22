@@ -1,0 +1,8 @@
+prettytable==3.10.2
+langchain_community==0.2.7
+langchain-experimental==0.0.62
+langchain-huggingface==0.0.3
+sentence-transformers==3.0.1
+#faiss-gpu==1.7.2
+faiss-cpu==1.8.0.post1
+pypandoc==1.13

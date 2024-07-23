@@ -19,7 +19,8 @@ def get_requirements_to_install():
 def _generate_readme_rst_from_md():
     output = pypandoc.convert_text(
         source=open('README.md').read(),
-        to='rst', format='md'
+        to='rst',
+        format='md'
     )
     with open('README.rst', 'w') as f:
         f.write(output)
@@ -81,5 +82,6 @@ setup(
         'Programming Language :: Python :: 3',
         'Programming Language :: Python :: 3.10',
         'Environment :: Console'
-    ]
+    ],
+    long_description_content_type='text/markdown'
 )

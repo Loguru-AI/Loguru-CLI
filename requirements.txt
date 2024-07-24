@@ -6,3 +6,4 @@ sentence-transformers==3.0.1
 #faiss-gpu==1.7.2
 faiss-cpu==1.8.0.post1
 pypandoc==1.13
+m2r==0.3.1

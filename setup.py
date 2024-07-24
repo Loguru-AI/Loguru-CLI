@@ -1,8 +1,7 @@
 import os
 import re
 import sys
-
-import pypandoc
+from m2r import parse_from_file
 from setuptools import setup, find_packages
 
 
@@ -17,11 +16,15 @@ def get_requirements_to_install():
 
 
 def _generate_readme_rst_from_md():
-    output = pypandoc.convert_text(
-        source=open('README.md').read(),
-        to='rst',
-        format='md'
-    )
+    # import pypandoc
+    # output = pypandoc.convert_text(
+    #     source=open('README.md').read(),
+    #     to='rst',
+    #     format='md'
+    # )
+    # with open('README.rst', 'w') as f:
+    #     f.write(output)
+    output = parse_from_file('README.md')
     with open('README.rst', 'w') as f:
         f.write(output)
 
@@ -56,6 +59,7 @@ setup(
     version=get_version(),
     description='An interactive commandline interface that brings intelligence to your logs.',
     long_description=get_description(),
+    long_description_content_type='text/markdown',
     install_requires=get_requirements_to_install(),
     author='Amith Koujalgi',
     author_email='koujalgi.amith@gmail.com',
@@ -83,5 +87,4 @@ setup(
         'Programming Language :: Python :: 3.10',
         'Environment :: Console'
     ],
-    long_description_content_type='text/markdown'
 )

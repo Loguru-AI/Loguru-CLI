@@ -6,6 +6,7 @@ import time
 
 from langchain.callbacks.streaming_stdout import StreamingStdOutCallbackHandler
 from langchain.chains import RetrievalQA
+from langchain_anthropic import ChatAnthropic
 from langchain_community.chat_models import ChatOllama
 from langchain_community.vectorstores import FAISS
 from langchain_core.documents import Document
@@ -228,9 +229,16 @@ class LoguruRAG:
                 openai_organization=self._config.openai.org_id,
                 model_name=self._config.openai.llm_name,
             )
+        elif service == 'anthropic':
+            os.environ['TOKENIZERS_PARALLELISM'] = 'true'
+            llm = ChatAnthropic(
+                anthropic_api_key=self._config.anthropic.api_key,
+                model=self._config.anthropic.llm_name,
+            )
         else:
             services = ['ollama', 'gemini', 'openai']
             print(f"Invalid service: {service}. Available services are {','.join(services)}")
+
         if stream:
             llm.callbacks = [StreamingStdOutCallbackHandler()]
 

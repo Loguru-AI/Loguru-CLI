@@ -51,9 +51,14 @@ class Gemini(BaseModel):
 
 
 class OpenAI(BaseModel):
-    api_key: str = Field(..., description="Gemini API Key")
+    api_key: str = Field(..., description="OpenAI API Key")
     org_id: str = Field(..., description="Organization ID for OpenAI")
-    llm_name: str = Field(..., description="Gemini Model Name. Ex: gemini-1.5-flash, gemini-1.5-pro")
+    llm_name: str = Field(..., description="OpenAI Model Name. Ex: gpt-3.5-turbo-instruct")
+
+
+class Anthropic(BaseModel):
+    api_key: str = Field(..., description="Anthropic API Key")
+    llm_name: str = Field(..., description="Anthropic Model Name. Ex: claude-3-opus-20240229")
 
 
 class Config(BaseModel):
@@ -61,5 +66,6 @@ class Config(BaseModel):
     ollama: Optional[Ollama] = Field(..., description="Ollama configuration")
     gemini: Optional[Gemini] = Field(..., description="Gemini configuration")
     openai: Optional[OpenAI] = Field(..., description="OpenAI configuration")
+    anthropic: Optional[Anthropic] = Field(..., description="Anthropic configuration")
     data_sources: List[DataSource] = Field(..., description="List of data sources")
     num_chunks_to_return: int = Field(..., description="Number of chunks to return")

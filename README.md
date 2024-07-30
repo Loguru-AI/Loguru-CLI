@@ -96,7 +96,7 @@ Scanning complete.
 loguru run
 ```
 
-#### Example Interactions
+#### Sample Interactions
 
 ```text
 >>> List all the errors
@@ -115,6 +115,7 @@ loguru run
 
 ```text
 >>> Give me a summary of the top errors as a table with the first column as timestamp, second column as component/service name and the third column as the short error summary.
+  
   ────────────────  ──────────────────────────  ───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
   Timestamp         Component/Service Name      Error Summary
   10/01/2024 11:05  auth-service                Connection to localhost:5432 refused. Check that the hostname and port are correct and that the postmaster is accepting TCP/IP connections.

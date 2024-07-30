@@ -8,5 +8,6 @@ langchain-openai==0.1.19
 langchain-anthropic==0.1.21
 #faiss-gpu==1.7.2
 faiss-cpu==1.8.0.post1
+prompt_toolkit==3.0.47
 markdown==3.6
 mdv==1.7.5

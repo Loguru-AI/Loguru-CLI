@@ -61,12 +61,14 @@ class LoguruRAG:
         print(f"Processing {log_file_path}...")
 
         if not os.path.exists(self._vector_store_directory):
-            print(f"Creating new vector store with logs of {log_file_path}...")
+            # print(f"Creating new vector store with logs of {log_file_path}...")
+            print(f"Creating new vector stor...")
             os.makedirs(self._vector_store_directory, exist_ok=True)
             vectorstore = FAISS.from_documents(documents, embedding_model)
             vectorstore.save_local(self._vector_store_directory)
         else:
-            print(f"Updating vector store with logs of {log_file_path}...")
+            # print(f"Updating vector store with logs of {log_file_path}...")
+            print(f"Updating vector store...")
             vectorstore = FAISS.load_local(self._vector_store_directory, embedding_model,
                                            allow_dangerous_deserialization=True)
             vectorstore.add_documents(documents)
@@ -95,8 +97,8 @@ class LoguruRAG:
             log_content = file.read()
         raw_entries = re.split(pattern_to_split_log_lines, log_content)
         _log_entries = []
-        for i in range(1, len(raw_entries), 2):
-            log_entry = raw_entries[i] + raw_entries[i + 1]
+        for entry in raw_entries:
+            log_entry = entry
             _log_entries.append(
                 Document(
                     page_content=log_entry.strip(),
@@ -129,7 +131,7 @@ class LoguruRAG:
             retriever=retriever,
             chain_type="stuff",
             return_source_documents=True,
-            chain_type_kwargs={'prompt': prompt}
+            chain_type_kwargs={'prompt': prompt},
         )
         end_time = time.time()
         time_taken = round(end_time - start_time, 2)
@@ -170,7 +172,13 @@ class LoguruRAG:
             allow_dangerous_deserialization=True
         )
         retriever = vectorstore.as_retriever(
-            search_kwargs={"k": self._config.num_chunks_to_return, 'fetch_k': self._config.num_chunks_to_return})
+            # search_type="similarity_score_threshold",
+            search_kwargs={
+                'k': self._config.num_chunks_to_return,
+                'fetch_k': self._config.num_chunks_to_return,
+                # 'score_threshold': 0.5
+            }
+        )
 
         template = """
         ### System:

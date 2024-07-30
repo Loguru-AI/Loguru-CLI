@@ -153,11 +153,11 @@ loguru run
         "scan_locations": [
           {
             "location": "/path/to/log-dir",
-            "pattern": "(\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}[+-]\\d{2}:\\d{2})"
+            "pattern": "\n"
           },
           {
             "location": "/path/to/another-log-dir",
-            "pattern": "(\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}[+-]\\d{2}:\\d{2})"
+            "pattern": "\n"
           }
         ]
       }
@@ -206,12 +206,15 @@ of contribution is much appreciated.
 - [MDV](https://github.com/axiros/terminal_markdown_viewer): Amazing package to pretty-print Markdown text in
   console.[^1]
 - [Loghub](https://github.com/logpai/loghub): A beautiful collection of freely accessible logs. [^2]
+- [Prompt Toolkit](https://github.com/prompt-toolkit/python-prompt-toolkit): An elegant library for powerful interactive
+  command line applications. [^3]
 
 [^1]: MDV Python pacakge on PyPi: https://pypi.org/project/mdv/
 
 [^2]: Jieming Zhu, Shilin He, Pinjia He, Jinyang Liu, Michael R.
 Lyu. [Loghub: A Large Collection of System Log Datasets for AI-driven Log Analytics](https://arxiv.org/abs/2008.06448).
 IEEE International Symposium on Software Reliability Engineering (ISSRE), 2023.
+[^3]: `prompt-toolkit` Python pacakge on PyPi: https://pypi.org/project/prompt-toolkit/
 
 ### License
 

@@ -211,6 +211,7 @@ class LoguruRAG:
             # https://python.langchain.com/v0.2/docs/integrations/chat/google_generative_ai/
             os.environ["GRPC_VERBOSITY"] = "ERROR"
             os.environ["GLOG_minloglevel"] = "2"
+            os.environ['TOKENIZERS_PARALLELISM'] = 'true'
             llm = ChatGoogleGenerativeAI(
                 model=self._config.gemini.llm_name,
                 temperature=0,

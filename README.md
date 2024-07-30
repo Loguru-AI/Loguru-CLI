@@ -190,6 +190,10 @@ make wheel
 - [ ] Auto log pattern identification and parsing
 - [ ] Support for non-filesystem based vector stores
 - [ ] Ignore `/history`, `/bye` while storing the commands in command history
+- [ ] Handle keyboard interrupt during the token-generation phase
+- [ ] Support for streaming the responses to console
+- [ ] Support for switching between raw mode and tools mode (function-calling). Maybe by enabling custom `set` command.
+  For example: `set raw true` and `set raw false` to toggle between the modes.
 
 ### Contributing
 

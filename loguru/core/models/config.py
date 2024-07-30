@@ -45,7 +45,14 @@ class DataSource(BaseModel):
     ds_params: Params = Field(..., description="Parameters for the data source")
 
 
+class Gemini(BaseModel):
+    api_key: str = Field(..., description="Gemini API Key")
+    llm_name: str = Field(..., description="Gemini Model Name. Ex: gemini-1.5-flash, gemini-1.5-pro")
+
+
 class Config(BaseModel):
     num_chunks_to_return: int = Field(..., description="Number of chunks to return")
+    service: str = Field(..., description="LLM service type. Ex: ollama, gemini")
     ollama: Ollama = Field(..., description="Ollama configuration")
+    gemini: Optional[Gemini] = Field(..., description="Gemini configuration")
     data_sources: List[DataSource] = Field(..., description="List of data sources")

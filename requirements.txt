@@ -5,3 +5,6 @@ langchain-huggingface==0.0.3
 sentence-transformers==3.0.1
 #faiss-gpu==1.7.2
 faiss-cpu==1.8.0.post1
+langchain-google-genai==1.0.8
+markdown==3.6
+mdv==1.7.5

@@ -1,15 +1,15 @@
 import os
 import re
 import sys
-from m2r import parse_from_file
+
 from setuptools import setup, find_packages
 
 
 def get_requirements_to_install():
     __curr_location__ = os.path.realpath(os.path.join(os.getcwd(), os.path.dirname(__file__)))
     requirements_txt_file_as_str = f"{__curr_location__}/requirements.txt"
-    with open(requirements_txt_file_as_str, 'r') as reqfile:
-        libs = reqfile.readlines()
+    with open(requirements_txt_file_as_str, 'r') as req_file:
+        libs = req_file.readlines()
         for i in range(len(libs)):
             libs[i] = libs[i].replace('\n', '')
     return libs
@@ -17,9 +17,9 @@ def get_requirements_to_install():
 
 def get_description() -> str:
     __curr_location__ = os.path.realpath(os.path.join(os.getcwd(), os.path.dirname(__file__)))
-    requirements_txt_file_as_str = f'{__curr_location__}/README.rst'
-    with open(requirements_txt_file_as_str, 'r') as reqfile:
-        desc = reqfile.read()
+    rst_txt_file_as_str = f'{__curr_location__}/README.md'
+    with open(rst_txt_file_as_str, 'r') as rst_file:
+        desc = rst_file.read()
     return desc
 
 
@@ -44,7 +44,7 @@ setup(
     version=get_version(),
     description='An interactive commandline interface that brings intelligence to your logs.',
     long_description=get_description(),
-    long_description_content_type='text/markdown',
+    long_description_content_type='text/markdown; charset=UTF-8; variant=GFM',
     install_requires=get_requirements_to_install(),
     author='Amith Koujalgi',
     author_email='koujalgi.amith@gmail.com',

@@ -31,6 +31,7 @@ cloud-based.
   results.
 - Save and replay history.
 - Scan and rebuild index from your logs.
+- Markdown-based pretty-printing of LLM responses in your console
 
 > [!NOTE]
 > Currently supports filesystem-based logs only, with plans to extend support to more log sources soon.
@@ -41,17 +42,18 @@ cloud-based.
 
 | Log Source | Availability |
 |------------|--------------|
-| Log files  | ✔️           |
+| Log files  | ✅️           |
 | ELK Stack  |              |
 | Graylog    |              |
 
 #### LLM Integrations
 
-| LLM Integration | Availability |
-|-----------------|--------------|
-| Ollama          | ✔️           |
-| OpenAI          |              |
-| Amazon Bedrock  |              |
+| LLM Integration | Availability | Additional Info                                                      |
+|-----------------|--------------|----------------------------------------------------------------------|
+| Ollama          | ✅️           |                                                                      |
+| Gemini          | ✅️           | Generate API Key from [here](https://aistudio.google.com/app/apikey) |
+| OpenAI          |              |                                                                      |
+| Amazon Bedrock  |              |                                                                      |
 
 ### Getting Started
 
@@ -74,6 +76,20 @@ loguru show-config
 loguru scan
 ```
 
+This takes some time to scan your logs.
+
+```text
+Using config: /Users/macuser/.loguru/config.json
+Scanning log locations to rebuild index. Please be patient. This may take a while.
+Scanning directory: /Users/macuser/logs/auth...
+Processing /Users/macuser/logs/auth/auth-service.log...
+Creating new vector store with logs of /Users/macuser/logs/auth/auth-service.log...
+Scanning directory: /Users/macuser/logs/customer-details...
+Processing /Users/macuser/logs/customer-details/customer-details-service.log...
+Updating vector store with logs of /Users/macuser/logs/customer-details/customer-details-service.log...
+Scanning complete.
+```
+
 #### Run app
 
 ```shell
@@ -90,11 +106,32 @@ loguru run
 3. It is also possible that there is a firewall or network issue preventing the connection from being established. For example, if there is a firewall on the server running PostgreSQL, it may be blocking incoming connections on port 5432.
 ```
 
+```text
+>>> What are the services used and what states are they in?
+
+1. auth-service, which ran on 10/01/2024 and failed to start.
+2. customer-details-service, which ran on 14/01/2024 and also failed to start.
+```
+
+```text
+>>> Give me a summary of the top errors as a table with the first column as timestamp, second column as component/service name and the third column as the short error summary.
+  ────────────────  ──────────────────────────  ───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+  Timestamp         Component/Service Name      Error Summary
+  10/01/2024 11:05  auth-service                Connection to localhost:5432 refused. Check that the hostname and port are correct and that the postmaster is accepting TCP/IP connections.
+  14/01/2024 12:06  customer-details-service    Connection to localhost:5432 refused. Check that the hostname and port are correct and that the postmaster is accepting TCP/IP connections.
+  14/01/2024 12:09  customer-details-service    java.lang.NoClassDefFoundError: org/springframework/core/type/classreading/ClassFormatException
+  ────────────────  ──────────────────────────  ───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+```
+
 #### Sample Config
 
 ```json
 {
-  "num_chunks_to_return": 100,
+  "service": "gemini",
+  "gemini": {
+    "api_key": "your-api-key",
+    "llm_name": "gemini-1.5-flash"
+  },
   "ollama": {
     "hosts": [
       "http://localhost:11434/"
@@ -105,6 +142,7 @@ loguru run
       "temperature": 0.1
     }
   },
+  "num_chunks_to_return": 100,
   "data_sources": [
     {
       "type": "filesystem",
@@ -147,10 +185,28 @@ make dev-install
 make wheel
 ```
 
+### Roadmap
+
+- [ ] Auto log pattern identification and parsing
+- [ ] Support for non-filesystem based vector stores
+- [ ] Ignore `/history`, `/bye` while storing the commands in command history
+
 ### Contributing
 
 Contributions are most welcome! Whether it's reporting a bug, proposing an enhancement, or helping with code - any sort
 of contribution is much appreciated.
+
+### Credits
+
+- [MDV](https://github.com/axiros/terminal_markdown_viewer): Amazing package to pretty-print Markdown text in
+  console.[^1]
+- [Loghub](https://github.com/logpai/loghub): A beautiful collection of freely accessible logs. [^2]
+
+[^1]: MDV Python pacakge on PyPi: https://pypi.org/project/mdv/
+
+[^2]: Jieming Zhu, Shilin He, Pinjia He, Jinyang Liu, Michael R.
+Lyu. [Loghub: A Large Collection of System Log Datasets for AI-driven Log Analytics](https://arxiv.org/abs/2008.06448).
+IEEE International Symposium on Software Reliability Engineering (ISSRE), 2023.
 
 ### License
 

@@ -41,7 +41,7 @@ cloud-based.
 
 | Log Source | Availability |
 |------------|--------------|
-| Log files  | ✔️           |
+| Log files  | ✅️           |
 | ELK Stack  |              |
 | Graylog    |              |
 
@@ -49,7 +49,8 @@ cloud-based.
 
 | LLM Integration | Availability |
 |-----------------|--------------|
-| Ollama          | ✔️           |
+| Ollama          | ✅️           |
+| Gemini          | ✅️           |
 | OpenAI          |              |
 | Amazon Bedrock  |              |
 
@@ -94,7 +95,11 @@ loguru run
 
 ```json
 {
-  "num_chunks_to_return": 100,
+  "service": "gemini",
+  "gemini": {
+    "api_key": "your-api-key",
+    "llm_name": "gemini-1.5-flash"
+  },
   "ollama": {
     "hosts": [
       "http://localhost:11434/"
@@ -105,6 +110,7 @@ loguru run
       "temperature": 0.1
     }
   },
+  "num_chunks_to_return": 100,
   "data_sources": [
     {
       "type": "filesystem",

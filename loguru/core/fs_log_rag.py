@@ -10,6 +10,7 @@ from langchain_community.chat_models import ChatOllama
 from langchain_community.vectorstores import FAISS
 from langchain_core.documents import Document
 from langchain_core.prompts import PromptTemplate
+from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain_huggingface import HuggingFaceEmbeddings
 
 from loguru import LOGURU_DATA_DIR, HUGGING_FACE_EMBEDDINGS_DEVICE_TYPE
@@ -164,7 +165,8 @@ class LoguruRAG:
         You are an honest assistant.
         You will accept contents of a log file and you will answer the question asked by the user appropriately.
         If you don't know the answer, just say you don't know. Don't try to make up an answer.
-        If you find time, date or timestamps in the logs, make sure to convert the timestamp to more human-readable format in your response as DD/MM/YYYY HH:SS
+        If you find time, date or timestamps in the logs, 
+        make sure to convert the timestamp to more human-readable format in your response as DD/MM/YYYY HH:SS
 
         ### Context:
         {context}
@@ -176,21 +178,38 @@ class LoguruRAG:
         """
 
         prompt = PromptTemplate.from_template(template)
-        llm = ChatOllama(
-            temperature=0,
-            base_url=self._ollama_api_base_url,
-            model=self._model_name,
-            streaming=True,
-            # seed=2,
-            top_k=10,
-            # A higher value (100) will give more diverse answers, while a lower value (10) will be more conservative.
-            top_p=0.3,
-            # Higher value (0.95) will lead to more diverse text, while a lower value (0.5) will generate more
-            # focused text.
-            num_ctx=3072,  # Sets the size of the context window used to generate the next token.
-            verbose=False
-        )
 
+        service = self._config.service
+
+        llm = None
+        if service == 'ollama':
+            llm = ChatOllama(
+                temperature=0,
+                base_url=self._ollama_api_base_url,
+                model=self._model_name,
+                streaming=True,
+                # seed=2,
+                top_k=10,
+                # A higher value (100) will give more diverse answers, while a lower value (10) will be more conservative.
+                top_p=0.3,
+                # Higher value (0.95) will lead to more diverse text, while a lower value (0.5) will generate more
+                # focused text.
+                num_ctx=3072,  # Sets the size of the context window used to generate the next token.
+                verbose=False
+            )
+        elif service == 'gemini':
+            # https://python.langchain.com/v0.2/docs/integrations/chat/google_generative_ai/
+            llm = ChatGoogleGenerativeAI(
+                model=self._config.gemini.llm_name,
+                temperature=0,
+                max_tokens=None,
+                timeout=None,
+                max_retries=2,
+                google_api_key=self._config.gemini.api_key
+            )
+        else:
+            services = ['ollama', 'gemini']
+            print(f"Invalid service: {service}. Available services are {','.join(services)}")
         if stream:
             llm.callbacks = [StreamingStdOutCallbackHandler()]
 

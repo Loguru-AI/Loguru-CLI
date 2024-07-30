@@ -12,6 +12,7 @@ from langchain_core.documents import Document
 from langchain_core.prompts import PromptTemplate
 from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain_huggingface import HuggingFaceEmbeddings
+from langchain_openai import OpenAI
 
 from loguru import LOGURU_DATA_DIR, HUGGING_FACE_EMBEDDINGS_DEVICE_TYPE
 from loguru.core.models.config import Config, DataSource, Params
@@ -220,8 +221,15 @@ class LoguruRAG:
                 max_retries=2,
                 google_api_key=self._config.gemini.api_key
             )
+        elif service == 'openai':
+            os.environ['TOKENIZERS_PARALLELISM'] = 'true'
+            llm = OpenAI(
+                openai_api_key=self._config.openai.api_key,
+                openai_organization=self._config.openai.org_id,
+                model_name=self._config.openai.llm_name,
+            )
         else:
-            services = ['ollama', 'gemini']
+            services = ['ollama', 'gemini', 'openai']
             print(f"Invalid service: {service}. Available services are {','.join(services)}")
         if stream:
             llm.callbacks = [StreamingStdOutCallbackHandler()]

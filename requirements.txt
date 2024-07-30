@@ -3,8 +3,9 @@ langchain_community==0.2.7
 langchain-experimental==0.0.62
 langchain-huggingface==0.0.3
 sentence-transformers==3.0.1
+langchain-google-genai==1.0.8
+langchain-openai==0.1.19
 #faiss-gpu==1.7.2
 faiss-cpu==1.8.0.post1
-langchain-google-genai==1.0.8
 markdown==3.6
 mdv==1.7.5

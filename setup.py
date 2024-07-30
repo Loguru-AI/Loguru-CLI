@@ -17,7 +17,7 @@ def get_requirements_to_install():
 
 def get_description() -> str:
     __curr_location__ = os.path.realpath(os.path.join(os.getcwd(), os.path.dirname(__file__)))
-    rst_txt_file_as_str = f'{__curr_location__}/README.rst'
+    rst_txt_file_as_str = f'{__curr_location__}/README.md'
     with open(rst_txt_file_as_str, 'r') as rst_file:
         desc = rst_file.read()
     return desc
@@ -44,7 +44,7 @@ setup(
     version=get_version(),
     description='An interactive commandline interface that brings intelligence to your logs.',
     long_description=get_description(),
-    long_description_content_type='text/markdown',
+    long_description_content_type='text/markdown; charset=UTF-8; variant=GFM',
     install_requires=get_requirements_to_install(),
     author='Amith Koujalgi',
     author_email='koujalgi.amith@gmail.com',
